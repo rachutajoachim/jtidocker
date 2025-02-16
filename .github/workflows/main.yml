@@ -17,8 +17,22 @@ jobs:
       ARM_CLIENT_ID: ${{ secrets.APPLICATION_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_PASSWORD }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      
+    
     steps:
+    - name: build docker image
+      run: |
+        cd app/backend
+        docker build -t jtiapp:${{ github.sha }} .
+        docker tag jtiapp:${{ github.sha }} jti${{ env.BRANCH_NAME }}acr.azurecr.io/jtiapp:${{ github.sha }}
+
     - name: Azure CLI Login
       run: az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
-      
+        
+    - name: ACR Login
+      run: az acr login --name jti${{ env.BRANCH_NAME }}acr
+
+    - name: Push Docker Image
+      run: docker push jti${{ env.BRANCH_NAME }}acr.azurecr.io/jtiapp:${{ github.sha }}
+
+    - name: Deploy to Azure App Service
+      run: az webapp config container set --name jtiapp-${{ env.BRANCH_NAME }}-app --resource-group app-${{ env.BRANCH_NAME }}-rg --docker-custom-image-name jti${{ env.BRANCH_NAME }}acr.azurecr.io/jtiapp:${{ github.sha }}
