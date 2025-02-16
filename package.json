@@ -1,0 +1,14 @@
+{
+  "name": "node-mysql-app",
+  "version": "1.0.0",
+  "description": "A simple Node.js app with MySQL",
+  "main": "fji.js",
+  "scripts": {
+    "start": "node fji.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql2": "^3.2.4"
+  }
+}
