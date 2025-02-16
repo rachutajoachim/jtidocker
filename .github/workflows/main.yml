@@ -21,7 +21,7 @@ jobs:
     steps:
     - name: build docker image
       run: |
-        docker build -t jtiapp:${{ github.sha }} -f ./app/Dockerfile
+        docker build -t jtiapp:${{ github.sha }}  ./app/Dockerfile
         docker tag jtiapp:${{ github.sha }} jti${{ env.BRANCH_NAME }}acr.azurecr.io/jtiapp:${{ github.sha }}
 
     - name: Azure CLI Login
