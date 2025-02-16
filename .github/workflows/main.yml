@@ -21,6 +21,8 @@ jobs:
     steps:
     - name: build docker image
       run: |
+        pwd
+        ls -a
         docker build -t jtiapp:${{ github.sha }} .
         docker tag jtiapp:${{ github.sha }} jti${{ env.BRANCH_NAME }}acr.azurecr.io/jtiapp:${{ github.sha }}
 
