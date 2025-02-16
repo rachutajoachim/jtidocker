@@ -43,4 +43,4 @@ jobs:
       run: docker push jti${{ env.BRANCH_NAME }}acr.azurecr.io/jtiapp:${{ github.sha }}
 
     - name: Deploy to Azure App Service
-      run: az webapp config container set --name jti-${{ env.BRANCH_NAME }}-app --resource-group app-${{ env.BRANCH_NAME }}-rg --docker-custom-image-name jti${{ env.BRANCH_NAME }}acr.azurecr.io/jtiapp:${{ github.sha }}
+      run: az webapp config container set --name jti-${{ env.BRANCH_NAME }}-app --resource-group app-${{ env.BRANCH_NAME }}-rg --docker-custom-image-name jti${{ env.BRANCH_NAME }}acr.azurecr.io/jtiapp:${{ github.sha }} --generic-configurations '{"acrUseManagedIdentityCreds": true}'
