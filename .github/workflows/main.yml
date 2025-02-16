@@ -19,6 +19,9 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
     
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
     - name: build docker image
       run: |
         pwd
