@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - dev
+      - stage
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    env:
+      TF_VAR_environment: ${{ github.ref_name }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.APPLICATION_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_PASSWORD }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      
+    steps:
+    - name: Azure CLI Login
+      run: az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+      
